@@ -27,13 +27,15 @@ export default {
         moveLeft() {
             const updatedHero = { ...this.hero };
             updatedHero.ax = -0.5;
-            updatedHero.friction = 1;            
+            updatedHero.friction = 1; 
+            updatedHero.isFacingLeft = true;           
             this.$emit('heroMoved', updatedHero);
         },
         moveRight() {
             const updatedHero = { ...this.hero };
             updatedHero.ax = 0.5;
             updatedHero.friction = 1;
+            updatedHero.isFacingLeft = false;
             this.$emit('heroMoved', updatedHero);
         },
         jump() {

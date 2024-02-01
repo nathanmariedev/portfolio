@@ -130,9 +130,9 @@ export default {
         this.calculateAnimationInterval();
 
         // DIRECTION
-        if (this.heroState.vx >= 0) {
+        if (this.heroState.vx > 0) {
           this.isFacingLeft = false;
-        } else {
+        } else if (this.heroState.vx < 0) {
           this.isFacingLeft = true;
         }
 
@@ -149,8 +149,9 @@ export default {
     },
   },
   mounted() {
-    this.updateHeroPosition();
     this.updateHeroAppearance();
+    this.updateHeroPosition();
+    
   }
 }
 </script>
