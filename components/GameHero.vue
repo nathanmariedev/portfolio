@@ -1,7 +1,6 @@
 <template>
-    <div style="background-color: blue; height: 10px; width: 10px;">
-        
-    </div>
+    <img :src="walkingFrames[this.hero.currentFrameIndex]" alt="hero"
+        style="height: 770px; width: 480px; position: absolute; bottom: 0; left: 0;">
 </template>
 
 <script>
@@ -13,22 +12,35 @@ export default {
         },
     },
 
+    data() {
+        return {
+            walkingFrames: [
+                require('./../static/sprites/main.png'),
+                require('./../static/sprites/run_1.png'),
+                require('./../static/sprites/run_2.png'),
+            ],
+            lastDirection: 'right',
+        };
+    },
+
     methods: {
         moveLeft() {
             const updatedHero = { ...this.hero };
-            updatedHero.ax = -0.1;
+            updatedHero.ax = -0.5;
+            updatedHero.friction = 1;            
             this.$emit('heroMoved', updatedHero);
         },
         moveRight() {
             const updatedHero = { ...this.hero };
-            updatedHero.ax = 0.1;
+            updatedHero.ax = 0.5;
+            updatedHero.friction = 1;
             this.$emit('heroMoved', updatedHero);
         },
         jump() {
             const updatedHero = { ...this.hero };
             if (!updatedHero.isJumping) {
-                updatedHero.isJumping = true;
-                updatedHero.vy += updatedHero.jump;
+                updatedHero.askToJump = true;
+                updatedHero.ay += 0.5;
             }
             this.$emit('heroMoved', updatedHero);
         },
@@ -55,18 +67,17 @@ export default {
 
         // DECELERATION
         window.addEventListener('keyup', (event) => {
-        if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
-            const updatedHero = { ...this.hero };
-            updatedHero.ax = 0;
-            this.$emit('heroMoved', updatedHero);
-        }
-      });
+            if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+                const updatedHero = { ...this.hero };
+                updatedHero.ax = 0;
+                updatedHero.friction = 0.985;
+                this.$emit('heroMoved', updatedHero);
+            }
+        });
     },
 
-    
+
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
